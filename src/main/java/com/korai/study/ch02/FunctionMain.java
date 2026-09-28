@@ -3,14 +3,13 @@ package com.korai.study.ch02;
 import java.lang.invoke.StringConcatException;
 
 public class FunctionMain {
-
     public static void main(String[] args) {
         /*
             [ 함수 ]
             반복적인 작업을 다시 사용할 수 있도록 정의(도구를 만드는 것)
             java에선 클래스 내부에 함수를 작성해야한다.
 
-            클래스 내부의 함수는 메소드(Method)라 부른다.
+            클래스 내부의 변수는 멤버변수, 함수는 메소드(Method)라 부른다.
 
             1. 재사용성
             2. 정리
@@ -92,5 +91,4 @@ public class FunctionMain {
 
 
     }
-
 }
