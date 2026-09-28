@@ -1,4 +1,4 @@
-package com.korai.study.Ch03.access;
+package com.korai.study.ch03.access;
 
 class Teacher {
     private String name;

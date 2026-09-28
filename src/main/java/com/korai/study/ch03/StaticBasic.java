@@ -1,4 +1,4 @@
-package com.korai.study.Ch03;
+package com.korai.study.ch03;
 
 import java.time.LocalDate;
 

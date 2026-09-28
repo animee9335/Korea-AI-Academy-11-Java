@@ -1,4 +1,4 @@
-package com.korai.study.Ch03;
+package com.korai.study.ch03;
 
 // 클래스 영역(클래스 로딩에 대한 이해)
 public class MethodArea {
