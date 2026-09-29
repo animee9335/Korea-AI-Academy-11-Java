@@ -30,14 +30,6 @@ class Student{
     int studentNum; // 변수(필드) = 인스턴스 변수
     String name;    // 변수(필드) = 인스턴스 변수, 인스턴스 = 실존하는 객체
 
-    /*
-    [ 생성자 ]
-
-    클래스명과 일치하는 함수 정의 = 생성자
-    함수 -> 기능을 정의 -> 동작
-    힙 메모리를 빌려서 객체를 생성 및 할당한다.
-    Java는 기본적으로 생성자가 생략되어 있다.
-    */
     Student(int studentNum, String name) {
         System.out.println("생성자 호출");
         this.studentNum = studentNum; // 자기자신을 this로 가리킨다.
