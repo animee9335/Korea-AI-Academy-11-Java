@@ -19,7 +19,7 @@ public class BookMain {
         System.out.println("=======================");
         bookRepository.findById(2l);
         System.out.println(bookRepository.updatePrice(1l, 25000));
-        bookRepository.delete(3l);
+        System.out.println(bookRepository.delete(3l));
         System.out.println(bookRepository.delete(99l));
         System.out.println("=======================");
         System.out.println(bookRepository.findByAuthor("도미"));

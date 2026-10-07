@@ -48,10 +48,9 @@ public class BookRepository {
 
     public Book delete (Long id) {
         System.out.println("삭제된 도서");
-        for (int i =0; i < bookList.size(); i++) {
-            if (bookList.get(i).getId().equals(id)) {
-                System.out.println(bookList.get(i));
-                return bookList.remove(i);
+        for (Book book : bookList) {
+            if (book.getId().equals(id)) {
+                return book;
             }
         }
         return null;
