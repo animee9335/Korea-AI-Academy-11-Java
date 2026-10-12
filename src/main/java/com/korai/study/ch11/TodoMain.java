@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /*
   싱글톤(Singleton)은 클래스의 인스턴스를 프로그램 전체에서 딱 하나만 만들고, 어디서든 그 하나를 공유해서 쓰게 하는 설계 방식
@@ -21,6 +23,7 @@ public class TodoMain {
         viewList.add(HomeView.getInstance());
         viewList.add(RegisterView.getInstance());
         viewList.add(ListView.getInstance());
+        viewList.add(DeleteView.getInstance());
 
         Scanner scanner = new Scanner(System.in);
 
@@ -39,6 +42,10 @@ class Todo {
     private int id;
     private String content;
 
+    @Override
+    public String toString() {
+        return String.format("[%d번] | %s", id, content);
+    }
 }
 
 // 기능을 추상화 할 때 사용
@@ -74,28 +81,33 @@ class HomeView implements View {
         String cmd;
 
         System.out.println("[ HOME ]");
-        System.out.println("R. TODO 등록하기");
-        System.out.println("L. TODO 목록조회");
-        System.out.println("Q. 프로그램 종료");
+        System.out.println("1. TODO 등록하기");
+        System.out.println("2. TODO 목록조회");
+        System.out.println("3. TODO 삭제하기");
+        System.out.println("0. 프로그램 종료");
         System.out.print(">>> ");
 
         cmd = scanner.nextLine().trim(); // trim은 양 옆 공백제거
         cmd = String.valueOf(cmd.charAt(0));
         cmd = cmd.toUpperCase();
 
-        boolean isAlphabet = cmd.matches("[a-zA-Z]");
-        if (!isAlphabet) {
-            System.out.println("영문자만 입력 가능합니다.");
+//        boolean isAlphabet = cmd.matches("[a-zA-Z]");
+        boolean isNumber = cmd.matches("[0-9]");
+        if (!isNumber) {
+//            System.out.println("영문자만 입력 가능합니다.");
+            System.out.println("숫자만 입력 가능합니다.");
             return;
         }
 
         if ("Q".equals(cmd)) {
             TodoMain.running = false;
             return;
-        } else if ("R".equals(cmd)) {
+        } else if ("1".equals(cmd)) {
             TodoMain.pathIndex = 1;
-        } else if ("L".equals(cmd)) {
+        } else if ("2".equals(cmd)) {
             TodoMain.pathIndex = 2;
+        } else if ("3".equals(cmd)) {
+            TodoMain.pathIndex = 3;
         } else {
             System.out.println("다시 입력해주세요.");
         }
@@ -159,11 +171,91 @@ class ListView implements View {
             return;
         }
         for (Todo todo : todos) {
-            System.out.println(todo);
+            System.out.println(todo.toString());
         }
         TodoMain.pathIndex = 0;
     }
 }
+
+class DeleteView implements View {
+    private static DeleteView instance;
+
+    private DeleteView() {
+
+    }
+
+    public static DeleteView getInstance() {
+        if (instance == null) {
+            instance = new DeleteView();
+        }
+        return instance;
+    }
+
+    @Override
+    public void show() {
+        Scanner scanner = new Scanner(System.in);
+        int cmd;
+
+        System.out.println("[ DELETE ]");
+
+        List<Todo> todos = TodoRepository.getInstance().findAll();
+
+        if (todos.isEmpty()) {
+            System.out.println("등록된 TODO가 없습니다.");
+            TodoMain.pathIndex = 0;
+            return;
+        }
+        for (Todo todo : todos) {
+            System.out.println(todo.toString());
+        }
+
+        System.out.println("삭제할 LIST의 ID를 입력해주세요.");
+        System.out.print(">>> ");
+        cmd = scanner.nextInt();
+        TodoRepository.getInstance().delete(cmd);
+
+        TodoMain.pathIndex = 0;
+    }
+}
+
+//class UpdateView implements View {
+//    private static UpdateView instance;
+//
+//    private UpdateView() {
+//
+//    }
+//
+//    public static UpdateView getInstance() {
+//        if (instance == null) {
+//            instance = new UpdateView();
+//        }
+//        return instance;
+//    }
+//
+//    @Override
+//    public void show() {
+//        Scanner scanner = new Scanner(System.in);
+//        String cmd;
+//
+//        System.out.println("[ UPDATE ]");
+//
+//        List<Todo> todos = TodoRepository.getInstance().findAll();
+//
+//        if (todos.isEmpty()) {
+//            System.out.println("등록된 TODO가 없습니다.");
+//            TodoMain.pathIndex = 0;
+//            return;
+//        }
+//        for (Todo todo : todos) {
+//            System.out.println(todo.toString());
+//        }
+//
+//        System.out.println("내용을 변경할 ID를 입력해주세요");
+//        System.out.print(">>> ");
+//        cmd = scanner.nextLine().trim();
+//
+//    }
+//}
 
 interface Repository<T> {
     void insert(T t);
@@ -190,9 +282,16 @@ class TodoRepository implements Repository<Todo>{
         return instance;
     }
 
+    private void renumber() {
+        for (int i = 0; i < todos.size(); i++) {
+            todos.get(i).setId(i + 1);
+        }
+    }
+
+
     @Override
     public void insert(Todo todo) {
-        todo.setId(lastId++);
+        todo.setId(todos.size() + 1);
         todos.add(todo);
     }
 
@@ -210,7 +309,9 @@ class TodoRepository implements Repository<Todo>{
     public Todo delete(int id) {
         for (int i = 0; i < todos.size(); i++) {
             if (todos.get(i).getId() == id) {
-                return todos.remove(i);
+                Todo removed = todos.remove(i);
+                renumber();
+                return removed;
             }
         }
         return null;

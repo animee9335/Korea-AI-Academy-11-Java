@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class ParkingApp {
     public static void main(String[] args) {
 
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = ParkingLot.getInstance();
         Scanner scanner = new Scanner(System.in);
         String cmd;
 
@@ -17,6 +17,11 @@ public class ParkingApp {
             System.out.println("1.입차 2.출차 3.주차현황 4.차량검색 5.오늘매출 6.출차내역 0.종료");
             System.out.print("선택 > ");
             cmd = scanner.nextLine().trim(); // trim() 입력한 문자열 양 옆의 공백을 제거
+
+            boolean isNumber = cmd.matches("[0-9]");
+            if (!isNumber) {
+                System.out.println("숫자만 입력해주세요.");
+            }
 
             if ("1".equals(cmd)){
                 parkingLot.enter();

@@ -30,5 +30,15 @@ public class Car {
         this.exitTime = exitTime;
         this.parkingFee = parkingFee;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "no=" + no +
+                ", carNumber='" + carNumber + '\'' +
+                ", entryTime=" + entryTime +
+                ", exitTime=" + exitTime +
+                '}';
+    }
 }
 

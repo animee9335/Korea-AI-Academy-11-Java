@@ -7,6 +7,9 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class ParkingLot {
+
+    private static ParkingLot instance;
+
     private ArrayList<Car> cars;
     private ArrayList<Car> exitCars;
 
@@ -17,10 +20,17 @@ public class ParkingLot {
 
     private Scanner scanner;
 
-    ParkingLot() {
+    private ParkingLot() {
         cars = new ArrayList<>();
         scanner = new Scanner(System.in);
         exitCars = new ArrayList<>();
+    }
+
+    public static ParkingLot getInstance() {
+        if (instance == null) {
+            instance = new ParkingLot();
+        }
+        return instance;
     }
 
     // 1.입차
@@ -37,6 +47,7 @@ public class ParkingLot {
         System.out.print("입차 시각(HH:mm) > ");
         LocalTime entryTime = LocalTime.parse(scanner.nextLine().trim());
 
+//        Car car = new Car(); set을 사용하여 인자값 없이도 대입가능하다.
         Car car = new Car(0, carNumber, compact, entryTime);
 
         if (cars.size() == 10) {
@@ -141,3 +152,4 @@ public class ParkingLot {
         }
     }
 }
+
