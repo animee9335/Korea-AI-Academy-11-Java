@@ -18,7 +18,6 @@ public class CollectionMain02 {
 
         list1.set(1, "파이썬");
         System.out.println(list1);
-
     }
 }
 
