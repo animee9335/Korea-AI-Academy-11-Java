@@ -18,6 +18,14 @@ public class CollectionMain02 {
 
         list1.set(1, "파이썬");
         System.out.println(list1);
+
+        list1.insert(2, "자바5");
+        System.out.println(list1);
+        list1.insert(4, "자바6");
+        System.out.println(list1);
+        list1.insert(0, "자바7");
+        System.out.println(list1);
+
     }
 }
 
@@ -92,14 +100,14 @@ public class CollectionMain02 {
                     tail = null;
                 }
             } else {
-                Node<E> current = head;
+                Node<E> prev = head;
                 for (int i =0; i < n - 1; i++) { // 삭제하는 노드의 이전까지 이동
-                    current = current.next;
+                    prev = prev.next;
                 }
-                removed = current.next; // removed에 다음 노드의 주소를 저장
-                current.next = removed.next; // 다음 노드의 주소에 그 다음 노드의 주소를 저장
+                removed = prev.next; // removed에 다음 노드의 주소를 저장
+                prev.next = removed.next; // 다음 노드의 주소에 그 다음 노드의 주소를 저장
                 if (removed.next == null) { // 마지막 노드를 삭제할 때
-                    tail = current; // tail을 앞 노드로 이동
+                    tail = prev; // tail을 앞 노드로 이동
                 }
             }
             size--;
@@ -115,5 +123,27 @@ public class CollectionMain02 {
                 current = current.next;
             }
             current.item = e;
+        }
+
+        public void insert(int n, E e) {
+            Node<E> newNode = new Node<>(e, null);
+
+            if(n == size) { // 마지막 노드 삽입
+                add(e);
+                return;
+            }
+
+            if (n == 0) { // 첫번째 노드 삽입
+                newNode.next = head;
+                head = newNode;
+            } else {
+                Node<E> prev = head;
+                for (int i =0; i < n - 1; i++) { // 수정하고자하는 노드 이전까지 이동, 중간 노드 삽입
+                    prev = prev.next;
+                }
+                newNode.next = prev.next;
+                prev.next = newNode;
+            }
+            size++;
         }
     }
