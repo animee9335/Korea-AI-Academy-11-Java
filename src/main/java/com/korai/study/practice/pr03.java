@@ -100,9 +100,8 @@ class Person {
         this.birthYear = birthYear;
     }
 
-    // (연도가 4로 나누어떨어짐)이고, (100으로 나누어떨어지지 않음) 또는 (400으로 나누어떨어짐)
     public static boolean isLeapYear(int year) {
-        if (year % 4 == 0 || year % 100 == 0 || year % 400 == 0) {
+        if (year % 4 == 0 && (year % 100 == 0 || year % 400 == 0)) {
             return true;
         }
         return false;
