@@ -134,17 +134,17 @@ class A1_4 {
         listA.addAll(listB);
 
         // 버블 정렬
-//        for (int i = 0; i < listA.size() - 1; i++) {
-//            for (int j = 0; j < listA.size() - 1 - i; j++) {
-//                if (listA.get(j) >  listA.get(j + 1)) {
-//                    int temp =  listA.get(j);
-//                    listA.set(j, listA.get(j + 1));
-//                    listA.set(j + 1, temp);
-//                }
-//            }
-//        }
+        for (int i = 0; i < listA.size() - 1; i++) {
+            for (int j = 0; j < listA.size() - 1 - i; j++) {
+                if (listA.get(j) >  listA.get(j + 1)) {
+                    int temp =  listA.get(j);
+                    listA.set(j, listA.get(j + 1));
+                    listA.set(j + 1, temp);
+                }
+            }
+        }
 
-        Collections.sort(listA);
+//        Collections.sort(listA);
         System.out.println(listA);
     }
 }
